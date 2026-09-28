@@ -6,8 +6,10 @@ from urllib.parse import quote
 
 import requests
 
-KEYWORD = sys.argv[1] if len(sys.argv) > 1 else "ジョンセンムル"
-url = f"https://www.qoo10.jp/s/{quote(KEYWORD)}?keyword={quote(KEYWORD)}"
+DEFAULT_KEYWORDS = ["ジョンセンムル", "jungsaemmool"]
+keywords = DEFAULT_KEYWORDS
+if len(sys.argv) > 1 and sys.argv[1].strip():
+    keywords = [k.strip() for k in sys.argv[1].split(",") if k.strip()]
 
 headers = {
     "User-Agent": (
@@ -18,45 +20,81 @@ headers = {
     "Accept-Language": "ja-JP,ja;q=0.9,en;q=0.8",
 }
 
-r = requests.get(url, headers=headers, timeout=30)
-r.raise_for_status()
-text = r.text
+outdir = Path("qoo10/output")
+outdir.mkdir(parents=True, exist_ok=True)
 
-patterns = {
-    "total_candidates": [
-        r"([0-9,]+)\s*件",
-        r"([0-9,]+)\s*商品",
-    ],
-    "review_sort_present": [r"レビューが多い順", r"レビュー.*?順"],
-    "shipping_korea_present": [r"韓国"],
-    "shipping_japan_present": [r"国内\s*\(日本\)", r"日本"],
+
+def first_count(text: str):
+    patterns = [
+        r"([0-9][0-9,]*)\s*件",
+        r"([0-9][0-9,]*)\s*商品",
+        r"検索結果[^0-9]{0,30}([0-9][0-9,]*)",
+    ]
+    vals = []
+    for p in patterns:
+        vals.extend(re.findall(p, text, flags=re.I | re.S))
+    if not vals:
+        return None, []
+    cleaned = []
+    for v in vals:
+        try:
+            cleaned.append(int(v.replace(",", "")))
+        except ValueError:
+            pass
+    return (cleaned[0] if cleaned else None), cleaned[:30]
+
+
+def probe(keyword: str):
+    url = f"https://www.qoo10.jp/s/{quote(keyword)}?keyword={quote(keyword)}"
+    try:
+        r = requests.get(url, headers=headers, timeout=30)
+        text = r.text
+    except Exception as e:
+        return {
+            "keyword": keyword,
+            "url": url,
+            "request_error": repr(e),
+            "query_count": None,
+        }, ""
+
+    query_count, count_candidates = first_count(text)
+    is_qoo10_error = (
+        "section_error_full" in text
+        or "Error" in text and "Qoo10" in text
+        or "connecting " in text and len(text) < 10000
+    )
+
+    result = {
+        "keyword": keyword,
+        "url": url,
+        "status_code": r.status_code,
+        "html_bytes": len(r.content),
+        "final_url": r.url,
+        "query_count": query_count,
+        "count_candidates": count_candidates,
+        "qoo10_error_page": is_qoo10_error,
+        "error_code_523_present": "523 Error" in text,
+        "review_sort_present": bool(re.search(r"レビューが多い順|レビュー.*?順", text, re.I | re.S)),
+        "shipping_korea_present": "韓国" in text,
+        "shipping_japan_present": bool(re.search(r"国内\s*\(日本\)|日本", text)),
+        "related_search_present": "関連検索" in text,
+    }
+    return result, text
+
+
+results = []
+for idx, keyword in enumerate(keywords, start=1):
+    result, html = probe(keyword)
+    results.append(result)
+    safe = re.sub(r"[^0-9A-Za-z_-]+", "_", keyword).strip("_") or f"keyword_{idx}"
+    (outdir / f"search_{idx}_{safe}.html").write_text(html, encoding="utf-8")
+
+summary = {
+    "keywords": keywords,
+    "results": results,
+    "note": "query_count is the Qoo10 search result count when present in returned HTML.",
 }
-
-out = {
-    "keyword": KEYWORD,
-    "url": url,
-    "status_code": r.status_code,
-    "html_bytes": len(r.content),
-    "final_url": r.url,
-}
-
-for key, pats in patterns.items():
-    hits = []
-    for p in pats:
-        hits.extend(re.findall(p, text, flags=re.I | re.S)[:20])
-    out[key] = hits if key == "total_candidates" else bool(hits)
-
-for token in ["レビューが多い順", "発送国", "韓国", "関連検索"]:
-    i = text.find(token)
-    if i >= 0:
-        out[f"snippet_{token}"] = re.sub(
-            r"\s+", " ", text[max(0, i - 250): i + 500]
-        )[:1000]
-
-Path("qoo10/output").mkdir(parents=True, exist_ok=True)
-Path("qoo10/output/probe.json").write_text(
-    json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8"
+(outdir / "probe.json").write_text(
+    json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
 )
-Path("qoo10/output/search.html").write_text(text, encoding="utf-8")
-
-print(json.dumps(out, ensure_ascii=False, indent=2))
+print(json.dumps(summary, ensure_ascii=False, indent=2))
