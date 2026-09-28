@@ -1,0 +1,37 @@
+name: Probe Qoo10 JP Playwright
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'qoo10/probe_qoo10_playwright.py'
+      - '.github/workflows/probe_qoo10_playwright.yml'
+
+jobs:
+  probe-playwright:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Playwright
+        run: |
+          pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+
+      - name: Probe Qoo10 with Chromium
+        run: python qoo10/probe_qoo10_playwright.py
+
+      - name: Upload probe output
+        uses: actions/upload-artifact@v4
+        with:
+          name: qoo10-playwright-probe-${{ github.run_id }}
+          path: qoo10/output_playwright/
+          retention-days: 7
