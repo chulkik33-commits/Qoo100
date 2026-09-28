@@ -3,10 +3,10 @@ name: Probe Qoo10 JP
 on:
   workflow_dispatch:
     inputs:
-      keyword:
-        description: Qoo10 JP search keyword
+      keywords:
+        description: Comma-separated Qoo10 JP search keywords
         required: false
-        default: 'ジョンセンムル'
+        default: 'ジョンセンムル,jungsaemmool'
 
 jobs:
   probe:
@@ -26,7 +26,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Probe Qoo10
-        run: python qoo10/probe_qoo10.py "${{ inputs.keyword }}"
+        run: python qoo10/probe_qoo10.py "${{ inputs.keywords }}"
 
       - name: Upload probe output
         uses: actions/upload-artifact@v4
