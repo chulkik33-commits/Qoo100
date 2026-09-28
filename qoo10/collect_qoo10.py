@@ -76,8 +76,12 @@ def sort_review_and_extract_top10(page):
     review_link = page.locator('a[val="MOST_REVIEWED"]').first
     if review_link.count() == 0:
         raise RuntimeError("review sort link not found")
-    review_link.click()
-    page.wait_for_timeout(5000)
+
+    # Qoo10 keeps the sort choices under a custom dropdown whose overlay can
+    # intercept a normal Playwright click. Trigger the site's own click handler
+    # directly in the DOM instead.
+    review_link.evaluate("el => el.click()")
+    page.wait_for_timeout(5500)
     try:
         page.wait_for_load_state("networkidle", timeout=15000)
     except Exception:
@@ -133,9 +137,9 @@ def enrich_shop_counts(context, products):
             shop_page.goto(url, wait_until="domcontentloaded", timeout=60000)
             shop_page.wait_for_timeout(1800)
             body = shop_page.locator("body").inner_text(timeout=10000)
-            m = re.search(r"([0-9][0-9,]*)\\s*販売中の商品", body)
+            m = re.search(r"([0-9][0-9,]*)\s*販売中の商品", body)
             if not m:
-                m = re.search(r"全ての商品\\s*\\(([0-9][0-9,]*)\\)", body)
+                m = re.search(r"全ての商品\s*\(([0-9][0-9,]*)\)", body)
             count = int(m.group(1).replace(",", "")) if m else None
         except Exception:
             count = None
