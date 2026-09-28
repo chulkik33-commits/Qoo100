@@ -1,0 +1,35 @@
+name: Collect Qoo10 JP
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'qoo10/collect_qoo10.py'
+      - '.github/workflows/collect_qoo10.yml'
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Playwright
+        run: |
+          pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+
+      - name: Collect Qoo10 data
+        run: python qoo10/collect_qoo10.py
+
+      - name: Upload collection
+        uses: actions/upload-artifact@v4
+        with:
+          name: qoo10-collection-${{ github.run_id }}
+          path: qoo10/output_collect/
+          retention-days: 14
