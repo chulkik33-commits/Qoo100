@@ -1,0 +1,36 @@
+name: Probe Qoo10 JP
+
+on:
+  workflow_dispatch:
+    inputs:
+      keyword:
+        description: Qoo10 JP search keyword
+        required: false
+        default: 'ジョンセンムル'
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Probe Qoo10
+        run: python qoo10/probe_qoo10.py "${{ inputs.keyword }}"
+
+      - name: Upload probe output
+        uses: actions/upload-artifact@v4
+        with:
+          name: qoo10-probe-${{ github.run_id }}
+          path: qoo10/output/
+          retention-days: 7
