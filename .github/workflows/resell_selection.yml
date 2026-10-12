@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'qoo10/resell_selection.py'
+      - 'qoo10/build_sku_index.py'
       - 'qoo10/resell_brand_universe.csv'
       - 'qoo10/resell_cost_input.csv'
       - '.github/workflows/resell_selection.yml'
@@ -24,7 +25,9 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Build raw-data-backed reseller database
         run: python qoo10/resell_selection.py
-      - name: Build canonical SKU index\n        run: python qoo10/build_sku_index.py\n\n      - name: Upload reseller database and raw evidence
+      - name: Build canonical SKU index
+        run: python qoo10/build_sku_index.py
+      - name: Upload reseller database and raw evidence
         uses: actions/upload-artifact@v4
         with:
           name: qoo10-resell-selection-${{ github.run_id }}
