@@ -4,7 +4,8 @@ from urllib.parse import quote
 from playwright.sync_api import sync_playwright
 
 OUT=Path("qoo10/mobile_sales_probe");OUT.mkdir(parents=True,exist_ok=True)
-KEYWORDS=["ジョンセンムル","メディヒール"]
+KEYWORDS=["ジョンセンムル"]
+GOODS=["1174516091","1015189379"]
 
 def main():
     rows=[]
@@ -14,24 +15,33 @@ def main():
         page=ctx.new_page()
         for kw in KEYWORDS:
             url=f"https://www.qoo10.jp/gmkt.inc/Mobile/Search/DynamicAd.aspx?keyword={quote(kw)}"
-            resp=page.goto(url,wait_until="domcontentloaded",timeout=60000)
-            page.wait_for_timeout(5000)
-            html=page.content(); text=page.locator("body").inner_text()
-            (OUT/f"{kw}.html").write_text(html,encoding="utf-8")
-            (OUT/f"{kw}.txt").write_text(text,encoding="utf-8")
-            print("KEYWORD",kw,"STATUS",resp.status if resp else None,"TITLE",page.title(),"URL",page.url,"HTML",len(html))
-            print(text[:6000])
-            sels=page.evaluate("""() => {
-              const out=[]; const all=[...document.querySelectorAll('a')];
-              for(const a of all){
-                const t=(a.innerText||'').replace(/\s+/g,' ').trim();
-                if(/個販売/.test(t) || /レビュー/.test(t)){
-                  out.push({text:t.slice(0,1000),href:a.href,cls:a.className});
-                }
+            resp=page.goto(url,wait_until="domcontentloaded",timeout=60000);page.wait_for_timeout(4000)
+            html=page.content();text=page.locator("body").inner_text()
+            (OUT/f"search_{kw}.html").write_text(html,encoding="utf-8")
+            items=page.evaluate("""() => [...document.querySelectorAll('#div_mobile_list li[data_gd_no]')].slice(0,20).map(li=>{
+              const a=li.querySelector('a[gd_no]'), name=li.querySelector('h3.tt'), sold=li.querySelector('.sld'), rvw=li.querySelector('.rvw'), prc=li.querySelector('.prc'), ship=li.querySelector('.shp_ntn');
+              return {goods_code:li.getAttribute('data_gd_no'),href:a?a.href:null,name:name?name.innerText.trim():null,sold:sold?sold.innerText.trim():null,review:rvw?rvw.innerText.trim():null,price:prc?prc.innerText.trim():null,shipping:ship?ship.innerText.trim():null,html:li.outerHTML.slice(0,2500)};
+            })""")
+            rows.append({"type":"search","keyword":kw,"status":resp.status if resp else None,"items":items})
+        for gd in GOODS:
+            url=f"https://m.qoo10.jp/gmkt.inc/Mobile/goods/goods.aspx?goodscode={gd}"
+            resp=page.goto(url,wait_until="domcontentloaded",timeout=60000);page.wait_for_timeout(5000)
+            html=page.content();text=page.locator("body").inner_text()
+            (OUT/f"goods_{gd}.html").write_text(html,encoding="utf-8")
+            (OUT/f"goods_{gd}.txt").write_text(text,encoding="utf-8")
+            candidates=page.evaluate("""() => {
+              const c=s=>(s||'').replace(/\s+/g,' ').trim();
+              const out=[];
+              for(const el of document.querySelectorAll('a,span,div,strong,p,h1,h2,h3')){
+                const t=c(el.innerText);
+                if(!t || t.length>150) continue;
+                if(/shop|ショップ|販売者|seller|公式/i.test(t)) out.push({tag:el.tagName,cls:el.className,id:el.id,text:t,href:el.href||null});
               }
-              return out.slice(0,30);
+              return out.slice(0,100);
             }""")
-            rows.append({"keyword":kw,"status":resp.status if resp else None,"items":sels})
+            print("\nGOODS",gd,"STATUS",resp.status if resp else None,"TITLE",page.title())
+            print(text[:5000])
+            rows.append({"type":"goods","goods_code":gd,"status":resp.status if resp else None,"url":page.url,"candidates":candidates})
         b.close()
     (OUT/"summary.json").write_text(json.dumps(rows,ensure_ascii=False,indent=2),encoding="utf-8")
 if __name__=="__main__":main()
