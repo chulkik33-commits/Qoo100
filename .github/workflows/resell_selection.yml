@@ -6,6 +6,7 @@ on:
     paths:
       - 'qoo10/resell_selection.py'
       - 'qoo10/build_sku_index.py'
+      - 'qoo10/build_brand_index.py'
       - 'qoo10/resell_brand_universe.csv'
       - 'qoo10/resell_cost_input.csv'
       - '.github/workflows/resell_selection.yml'
@@ -13,7 +14,7 @@ on:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -23,10 +24,12 @@ jobs:
         run: |
           pip install playwright==1.55.0
           python -m playwright install --with-deps chromium
-      - name: Build raw-data-backed reseller database
+      - name: Collect Qoo10 raw data
         run: python qoo10/resell_selection.py
       - name: Build canonical SKU index
         run: python qoo10/build_sku_index.py
+      - name: Build brand cross-market index
+        run: python qoo10/build_brand_index.py
       - name: Upload reseller database and raw evidence
         uses: actions/upload-artifact@v4
         with:
