@@ -1,18 +1,31 @@
-brand_id,brand_name_ko,keyword_jp,keyword_en,active,selection_source
-TORRIDEN,토리든,トリデン,torriden,1,domestic_signal_index_2026-09-28
-AESTURA,에스트라,エストラ,aestura,1,domestic_signal_index_2026-09-28
-WELLAGE,웰라쥬,ウェラージュ,wellage,1,domestic_signal_index_2026-09-28
-ANUA,아누아,アヌア,anua,1,domestic_signal_index_2026-09-28
-SNATURE,에스네이처,エスネイチャー,s nature,1,domestic_signal_index_2026-09-28
-ROUNDLAB,라운드랩,ラウンドラボ,round lab,1,domestic_signal_index_2026-09-28
-ABIB,아비브,アビブ,abib,1,domestic_signal_index_2026-09-28
-GOODAL,구달,グーダル,goodal,1,domestic_signal_index_2026-09-28
-INNISFREE,이니스프리,イニスフリー,innisfree,1,domestic_signal_index_2026-09-28
-MEDIHEAL,메디힐,メディヒール,mediheal,1,domestic_signal_index_2026-09-28
-ISNTREE,이즈앤트리,イズエンツリー,isntree,1,domestic_signal_index_2026-09-28
-MEDICUBE,메디큐브,メディキューブ,medicube,1,domestic_signal_index_2026-09-28
-CELIMAX,셀리맥스,セリマックス,celimax,1,domestic_signal_index_2026-09-28
-ARENCIA,아렌시아,アレンシア,arencia,1,domestic_signal_index_2026-09-28
-FATION,파티온,ファティオン,fation,1,domestic_signal_index_2026-09-28
-KLAIRS,디어클레어스,クレアス,dear klairs,1,domestic_signal_index_2026-09-28
-DERMAFACTORY,더마팩토리,ダーマファクトリー,derma factory,1,domestic_signal_index_2026-09-28
+brand_id,brand_name_ko,keyword_jp,keyword_en,active,selection_axis,domestic_index,selection_source
+AESTURA,에스트라,エストラ,aestura,1,SKINCARE,97.24,domestic_index_v2
+WELLAGE,웰라쥬,ウェラージュ,wellage,1,SKINCARE,93.95,domestic_index_v2
+REJURAN,리쥬란,リジュラン,rejuran,1,SKINCARE,92.91,domestic_index_v2
+SNATURE,에스네이처,エスネイチャー,s nature,1,SKINCARE,89.63,domestic_index_v2
+ANUA,아누아,アヌア,anua,1,SKINCARE,89.22,domestic_index_v2
+BRINGGREEN,브링그린,ブリングリーン,bring green,1,SKINCARE,88.34,domestic_index_v2
+TORRIDEN,토리든,トリデン,torriden,1,SKINCARE,87.56,domestic_index_v2
+DRALTHEA,닥터엘시아,ドクターエルシア,dr althea,1,SKINCARE,84.90,domestic_index_v2
+MEDIHEAL,메디힐,メディヒール,mediheal,1,SKINCARE,84.72,domestic_index_v2
+ROUNDLAB,라운드랩,ラウンドラボ,round lab,1,SKINCARE,83.79,domestic_index_v2
+DALBA,달바,ダルバ,d alba,1,SKINCARE,83.38,domestic_index_v2
+NUMBUZIN,넘버즈인,ナンバーズイン,numbuzin,1,SKINCARE,82.85,domestic_index_v2
+DRG,닥터지,ドクタージー,dr g,1,SKINCARE,82.34,domestic_index_v2
+ABIB,아비브,アビブ,abib,1,SKINCARE,81.15,domestic_index_v2
+FATION,파티온,ファティオン,fation,1,SKINCARE,80.79,domestic_index_v2
+CLIO,클리오,クリオ,clio,1,MAKEUP,93.24,domestic_index_v2
+PERIPERA,페리페라,ペリペラ,peripera,1,MAKEUP,88.58,domestic_index_v2
+ROMAND,롬앤,ロムアンド,romand,1,MAKEUP,87.91,domestic_index_v2
+HOLIKAHOLIKA,홀리카홀리카,ホリカホリカ,holika holika,1,MAKEUP,80.81,domestic_index_v2
+WAKEMAKE,웨이크메이크,ウェイクメイク,wakemake,1,MAKEUP,71.66,domestic_index_v2
+SONATURAL,쏘내추럴,ソーナチュラル,so natural,1,MAKEUP,66.89,domestic_index_v2
+ESPOIR,에스쁘아,エスポア,espoir,1,MAKEUP,66.82,domestic_index_v2
+DASIQUE,데이지크,デイジーク,dasique,1,MAKEUP,65.00,domestic_index_v2
+VDL,VDL,VDL,vdl,1,MAKEUP,64.63,domestic_index_v2
+ETUDE,에뛰드,エチュード,etude,1,MAKEUP,64.12,domestic_index_v2
+ALTSTEREO,얼터너티브스테레오,オルタナティブステレオ,alternative stereo,1,MAKEUP,63.79,domestic_index_v2
+HERA,헤라,ヘラ,hera,1,MAKEUP,61.89,domestic_index_v2
+JSM,정샘물,ジョンセンムル,jungsaemmool,1,MAKEUP,60.41,domestic_index_v2
+ABOUTTONE,어바웃톤,アバウトトーン,about tone,1,MAKEUP,60.27,domestic_index_v2
+FWEE,퓌,フィー,fwee,1,MAKEUP,57.09,domestic_index_v2
