@@ -5,7 +5,7 @@ from playwright.sync_api import sync_playwright
 
 OUT=Path("qoo10/mobile_sales_probe");OUT.mkdir(parents=True,exist_ok=True)
 KEYWORDS=["ジョンセンムル"]
-GOODS=["1174516091","1015189379"]
+GOODS=["1174516091","1015189379","1165289320","1106123843","1179694605"]
 
 def main():
     rows=[]
@@ -41,7 +41,12 @@ def main():
             }""")
             print("\nGOODS",gd,"STATUS",resp.status if resp else None,"TITLE",page.title())
             print(text[:5000])
-            rows.append({"type":"goods","goods_code":gd,"status":resp.status if resp else None,"url":page.url,"candidates":candidates})
+            metrics=page.evaluate("""() => {
+              const html=document.documentElement.innerHTML;
+              const m=(k)=>{const r=new RegExp('"'+k+'"\\\\s*:\\\\s*([0-9.]+)');const x=html.match(r);return x?Number(x[1]):null};
+              return {total_sell_amt:m('total_sell_amt'),review_cnt:m('review_cnt'),remain_cnt:m('remain_cnt')};
+            }""")
+            rows.append({"type":"goods","goods_code":gd,"status":resp.status if resp else None,"url":page.url,"candidates":candidates,"metrics":metrics})
         b.close()
     (OUT/"summary.json").write_text(json.dumps(rows,ensure_ascii=False,indent=2),encoding="utf-8")
 if __name__=="__main__":main()
