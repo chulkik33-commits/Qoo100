@@ -111,7 +111,7 @@ def main():
             ranks_pop=[]; ranks_rev=[]
             for r in allrows:
                 try:
-                    if r.get("price_jpy"): prices.append(float(r["price_jpy"]))
+                    if r.get("full_price_jpy"): prices.append(float(r["full_price_jpy"]))
                 except: pass
                 try:
                     if r.get("review_count"): reviews.append(int(float(r["review_count"])))
@@ -154,7 +154,7 @@ def main():
                     "rank":r.get("rank"),
                     "product_name":r.get("product_name"),
                     "shop_name":r.get("shop_name"),
-                    "price_jpy":r.get("price_jpy"),
+                    "price_jpy":r.get("full_price_jpy"),
                     "review_count":r.get("review_count"),
                     "mapping_confidence":confidence,
                     "review_required":review_required
