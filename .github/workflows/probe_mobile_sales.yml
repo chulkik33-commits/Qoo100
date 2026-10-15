@@ -1,0 +1,26 @@
+name: Qoo10 Mobile Sales Probe
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'qoo10/probe_mobile_sales.py'
+      - '.github/workflows/probe_mobile_sales.yml'
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+      - run: python qoo10/probe_mobile_sales.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qoo10-mobile-sales-probe-${{ github.run_id }}
+          path: qoo10/mobile_sales_probe/
