@@ -30,6 +30,8 @@ jobs:
         run: python qoo10/build_sku_index.py
       - name: Build brand cross-market index
         run: python qoo10/build_brand_index.py
+      - name: Build result report
+        run: python qoo10/build_run_report.py
       - name: Upload reseller database and raw evidence
         uses: actions/upload-artifact@v4
         with:
