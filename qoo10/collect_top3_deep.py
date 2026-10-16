@@ -75,6 +75,18 @@ def sim(a,b,brand):
     set_penalty=.10 if (("SET" in fa) != ("SET" in fb)) else 0
     return max(.62*seq+.38*jac-cap_penalty-set_penalty,0)
 
+
+def percentile(vals,v,log=False):
+    xs=[x for x in vals if x is not None]
+    if v is None or not xs:return 0
+    if log:
+        xs=[math.log1p(max(0,x)) for x in xs]
+        v=math.log1p(max(0,v))
+    xs=sorted(xs)
+    below=sum(x<v for x in xs)
+    eq=sum(x==v for x in xs)
+    return round(100*(below+0.5*eq)/len(xs),2)
+
 def save_csv(path,rows):
     if not rows:return
     with open(path,"w",newline="",encoding="utf-8-sig") as f:
