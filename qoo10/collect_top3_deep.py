@@ -95,6 +95,31 @@ def save_csv(path,rows):
 def read_brands():
     with open(BRANDS,encoding="utf-8-sig") as f:return list(csv.DictReader(f))
 
+
+async def collect_market_counts(page,b):
+    kw=b["keyword_jp"]
+    url=f"https://www.qoo10.jp/s/{quote(kw)}?keyword={quote(kw)}"
+    resp=await page.goto(url,wait_until="domcontentloaded",timeout=60000)
+    await page.wait_for_timeout(1800)
+    data=await page.evaluate("""() => {
+      const c=s=>(s||'').replace(/\\s+/g,' ').trim();
+      const ship={};
+      for(const a of document.querySelectorAll('a.local[data-nation_code]')){
+        const code=a.getAttribute('data-nation_code')||'ALL';
+        const n=a.querySelector('.num');
+        if(!(code in ship)) ship[code]=c(n?n.textContent:'');
+      }
+      return {ship};
+    }""")
+    def p(v):
+        m=re.search(r"([0-9][0-9,]*)",str(v or ""))
+        return int(m.group(1).replace(",","")) if m else None
+    allc=p(data["ship"].get("ALL"))
+    jpc=p(data["ship"].get("JP"))
+    krc=p(data["ship"].get("KR"))
+    other=(allc-(jpc or 0)-(krc or 0)) if allc is not None else None
+    return {"search_total_count":allc,"search_domestic_jp_count":jpc,"search_korea_count":krc,"search_other_count":other,"search_count_status":resp.status if resp else None}
+
 async def search_page(page,b,pageno):
     kw=b["keyword_jp"]
     url=f"https://www.qoo10.jp/gmkt.inc/Mobile/Search/DynamicAd.aspx?keyword={quote(kw)}&page_no={pageno}&sortType=SORT_RANK_POINT"
@@ -109,11 +134,18 @@ async def main():
     brands=read_brands();run_id=datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     runraw=RAW/run_id;runraw.mkdir(parents=True,exist_ok=True)
     search_rows=[]
+    market_counts={}
     async with async_playwright() as p:
         browser=await p.chromium.launch(headless=True,args=["--no-sandbox"])
         ctx=await browser.new_context(locale="ja-JP",timezone_id="Asia/Tokyo",viewport={"width":430,"height":1200})
         page=await ctx.new_page()
         for b in brands:
+            try:
+                market_counts[b["brand_id"]]=await collect_market_counts(page,b)
+                print("COUNTS",b["brand_id"],market_counts[b["brand_id"]])
+            except Exception as e:
+                market_counts[b["brand_id"]]={"search_total_count":None,"search_domestic_jp_count":None,"search_korea_count":None,"search_other_count":None,"search_count_status":None}
+                print("COUNT_ERR",b["brand_id"],type(e).__name__,str(e)[:120])
             for pg in range(1,PAGES+1):
                 try:
                     status,rows,html=await search_page(page,b,pg)
@@ -162,7 +194,15 @@ async def main():
         for r in valid:
             if r["is_flagship"]==0:sellers[r.get("shop_name") or r.get("seller_id") or "?"]+=r["cumulative_sales_units"]
         top3=sum(sorted(sellers.values(),reverse=True)[:3])
-        brand_out.append({"brand_id":bid,"brand_name_ko":rs[0]["brand_name_ko"],"domestic_index":rs[0]["domestic_index"],"search_pages":PAGES,"unique_listings":len(rs),"detail_valid_listings":len(valid),"coverage_pct":round(100*len(valid)/len(rs),2) if rs else 0,"observed_cumulative_sales_units":total,"flagship_sales_units":flag,"reseller_sales_units":res,"flagship_sales_share_pct":round(100*flag/total,2) if total else None,"reseller_sales_share_pct":round(100*res/total,2) if total else None,"reseller_seller_count":len(sellers),"reseller_top3_sales_concentration_pct":round(100*top3/res,2) if res else None,"basis":"QOO10_DETAIL_total_sell_amt","scope":"brand keyword mobile search pages 1-5"})
+        mc=market_counts.get(bid,{})
+        brand_out.append({"brand_id":bid,"brand_name_ko":rs[0]["brand_name_ko"],"domestic_index":rs[0]["domestic_index"],
+        "search_total_count":mc.get("search_total_count"),"search_domestic_jp_count":mc.get("search_domestic_jp_count"),"search_korea_count":mc.get("search_korea_count"),"search_other_count":mc.get("search_other_count"),
+        "search_pages_requested":PAGES,"effective_unique_search_listings":len(rs),"pagination_note":"Qoo10 mobile endpoint returned repeated/overlapping results; effective coverage is unique listings actually observed, not 5 distinct pages",
+        "detail_valid_listings":len(valid),"coverage_pct":round(100*len(valid)/len(rs),2) if rs else 0,
+        "observed_cumulative_sales_count":total,"flagship_sales_count":flag,"reseller_sales_count":res,
+        "flagship_sales_share_pct":round(100*flag/total,2) if total else None,"reseller_sales_share_pct":round(100*res/total,2) if total else None,
+        "reseller_seller_count":len(sellers),"reseller_top3_sales_concentration_pct":round(100*top3/res,2) if res else None,
+        "sales_count_basis":"Qoo10 detail internal total_sell_amt interpreted as cumulative sold-item count; cross-checked against UI 個販売 field","scope":"brand keyword search; sales summed only across unique listings actually observed"})
     save_csv(OUT/"brand_top3_sales_share.csv",brand_out)
 
     # SKU clustering. Cluster all listings together first, then explicitly report official presence and mapping confidence.
@@ -186,21 +226,21 @@ async def main():
             rep=max(rr,key=lambda x:x.get("cumulative_sales_units") or 0)
             confidence=round(sum(c["pair_scores"])/len(c["pair_scores"]),3)
             status="BOTH_FOUND" if official_rows and reseller_rows else ("FLAGSHIP_ONLY" if official_rows else "RESELLER_ONLY_UNVERIFIED")
-            sku_out.append({"brand_id":bid,"brand_name_ko":brand,"canonical_product_name":rep.get("product_name"),"listing_count":len(rr),"flagship_listing_count":len(official_rows),"reseller_listing_count":len(reseller_rows),"official_presence_status":status,"mapping_confidence":confidence,"observed_cumulative_sales_units":total,"flagship_sales_units":flag if official_rows else None,"reseller_sales_units":res,"reseller_sales_share_pct":round(100*res/total,2) if total and official_rows else None,"representative_goods_code":rep.get("goods_code"),"representative_shop":rep.get("shop_name"),"representative_full_price_jpy":rep.get("full_price_jpy"),"basis":"QOO10_DETAIL_total_sell_amt"})
+            sku_out.append({"brand_id":bid,"brand_name_ko":brand,"canonical_product_name":rep.get("product_name"),"listing_count":len(rr),"flagship_listing_count":len(official_rows),"reseller_listing_count":len(reseller_rows),"official_presence_status":status,"mapping_confidence":confidence,"observed_cumulative_sales_count":total,"flagship_sales_count":flag if official_rows else None,"reseller_sales_count":res,"reseller_sales_share_pct":round(100*res/total,2) if total and official_rows else None,"representative_goods_code":rep.get("goods_code"),"representative_shop":rep.get("shop_name"),"representative_full_price_jpy":rep.get("full_price_jpy"),"sales_count_basis":"Qoo10 detail internal total_sell_amt interpreted as cumulative sold-item count"})
     # only rank source candidates when both flagship/reseller comparison exists, or flag as unverified
     verified=[x for x in sku_out if x["official_presence_status"]=="BOTH_FOUND"]
-    salesvals=[x["observed_cumulative_sales_units"] for x in verified]
+    salesvals=[x["observed_cumulative_sales_count"] for x in verified]
     for x in sku_out:
         if x["official_presence_status"]=="BOTH_FOUND":
-            sales_score=percentile(salesvals,x["observed_cumulative_sales_units"],True)
+            sales_score=percentile(salesvals,x["observed_cumulative_sales_count"],True)
             x["verified_sourcing_index"]=round(.60*sales_score+.40*(x["reseller_sales_share_pct"] or 0),2)
         else:x["verified_sourcing_index"]=None
-    sku_out.sort(key=lambda x:(x["verified_sourcing_index"] is not None,x["verified_sourcing_index"] or -1,x["observed_cumulative_sales_units"]),reverse=True)
+    sku_out.sort(key=lambda x:(x["verified_sourcing_index"] is not None,x["verified_sourcing_index"] or -1,x["observed_cumulative_sales_count"]),reverse=True)
     for i,x in enumerate(sku_out,1):x["row_rank"]=i
     save_csv(OUT/"sku_top3_verified_index.csv",sku_out)
     save_csv(OUT/"candidate20_verified.csv",[x for x in sku_out if x["verified_sourcing_index"] is not None][:20])
 
-    meta={"run_id":run_id,"brands":[b["brand_id"] for b in brands],"pages_per_brand":PAGES,"raw_listings":len(details),"brand_rows":len(brand_out),"sku_clusters":len(sku_out),"verified_sku_clusters":len(verified),"important":"RESELLER_ONLY_UNVERIFIED rows never receive a 100% reseller share; official absence is treated as NOT VERIFIED, not zero sales."}
+    meta={"run_id":run_id,"brands":[b["brand_id"] for b in brands],"pages_requested_per_brand":PAGES,"raw_listings":len(details),"brand_rows":len(brand_out),"sku_clusters":len(sku_out),"verified_sku_clusters":len(verified),"important":"RESELLER_ONLY_UNVERIFIED rows never receive a 100% reseller share; official absence is treated as NOT VERIFIED, not zero sales. search_pages_requested does not equal effective pagination coverage when Qoo10 repeats results."}
     (OUT/"run_meta.json").write_text(json.dumps(meta,ensure_ascii=False,indent=2),encoding="utf-8")
     print(json.dumps(meta,ensure_ascii=False))
 
