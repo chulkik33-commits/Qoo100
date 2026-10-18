@@ -59,16 +59,26 @@ def parse_append_html(txt):
 
 def detail_parse(txt):
     def num(key):
-        m=re.search(r'"'+re.escape(key)+r'"\s*:\s*([0-9.]+)',txt)
+        m=re.search(r'"'+re.escape(key)+r'"\\s*:\\s*([0-9.]+)',txt)
         return int(float(m.group(1))) if m else None
-    shop=None
-    sm=re.search(r'<a[^>]*id=["\']aMobileShopTitle["\'][^>]*>(.*?)</a>',txt,re.S|re.I)
-    if sm: shop=strip_tags(sm.group(1))
-    official=bool(re.search(r'<span[^>]*id=["\']span_partial_seller["\'][^>]*>\s*公式ショップ\s*</span>',txt,re.S|re.I))
-    sid=None
-    em=re.search(r'"enc_seller_cust_no"\s*:\s*"([^"]+)"',txt)
-    if em:sid=em.group(1)
-    return num("total_sell_amt"),num("review_cnt"),shop,official,sid
+    def jstr(key):
+        m=re.search(r'"'+re.escape(key)+r'"\\s*:\\s*"((?:\\\\.|[^"])*)"',txt)
+        if not m:return None
+        try:return json.loads('"'+m.group(1)+'"')
+        except:return m.group(1)
+    product_name=jstr("gd_nm")
+    minishop_url=jstr("minishopURL")
+    seller_id=jstr("enc_seller_cust_no")
+    seller_name=None
+    if minishop_url:
+        mm=re.search(r"/shop/([^/?#]+)",minishop_url,re.I)
+        if mm:seller_name=mm.group(1)
+    official=bool(re.search(r'公式ショップ',txt,re.I))
+    sales=num("total_sell_amt")
+    review=num("review_cnt")
+    current=num("discounted_price") or num("sell_price")
+    list_price=num("org_price") or num("market_price")
+    return sales,review,seller_name,official,seller_id,product_name,minishop_url,current,list_price
 
 async def retry_get(req,url):
     last=None
@@ -177,8 +187,8 @@ async def main():
                 try:
                     resp=await retry_get(req,u)
                     txt=await resp.text()
-                    sales,rv,shop,official,sid=detail_parse(txt)
-                    return {**r,"detail_status":resp.status,"cumulative_sales_count":sales,"detail_review_count":rv,"shop_name":shop,"is_flagship":1 if official else 0,"seller_id":sid,"full_price_jpy":money(r.get("list_price_text")),"current_price_jpy":money(r.get("current_price_text"))}
+                    sales,rv,shop,official,sid,detail_name,minishop_url,detail_price,detail_list_price=detail_parse(txt)
+                    return {**r,"detail_status":resp.status,"cumulative_sales_count":sales,"detail_review_count":rv,"shop_name":shop,"is_flagship":1 if official else 0,"seller_id":sid,"product_name":detail_name or r.get("product_name"),"minishop_url":minishop_url,"full_price_jpy":detail_list_price or money(r.get("list_price_text")),"current_price_jpy":detail_price or money(r.get("current_price_text"))}
                 except Exception as e:
                     return {**r,"detail_status":None,"cumulative_sales_count":None,"detail_error":type(e).__name__}
         detailed=[]
@@ -225,6 +235,42 @@ async def main():
         for i,x in enumerate(ranked[:10],1): x["reseller_rank"]=i; reseller_rows.append(x)
     save(OUT/"04_brand_summary.csv",brand_summary)
     save(OUT/"05_top10_resellers.csv",reseller_rows)
+
+
+    # Conservative Canonical SKU index from detail product names.
+    def canon(name,bid):
+        x=(name or "").lower()
+        for a in ALIASES.get(bid,[]): x=x.replace(a.lower()," ")
+        x=re.sub(r"【[^】]*】|\\[[^\\]]*\\]|\\([^)]*\\)"," ",x)
+        x=re.sub(r"公式|正規品|送料無料|韓国コスメ|メガ割|限定|new|即納"," ",x,flags=re.I)
+        x=re.sub(r"[^0-9a-zぁ-んァ-ン一-龥가-힣]+"," ",x)
+        return " ".join(t for t in x.split() if len(t)>1)[:300]
+    groups=defaultdict(list)
+    for x in detailed:
+        if x.get("cumulative_sales_count") is None or not x.get("product_name"): continue
+        k=canon(x["product_name"],x["brand_id"])
+        if k: groups[(x["brand_id"],k)].append(x)
+    sku_rows=[]
+    for (bid,k),items in groups.items():
+        total=sum(int(x.get("cumulative_sales_count") or 0) for x in items)
+        fl=[x for x in items if x.get("is_flagship")==1]
+        rs=[x for x in items if x.get("is_flagship")==0]
+        fs=sum(int(x.get("cumulative_sales_count") or 0) for x in fl)
+        rss=sum(int(x.get("cumulative_sales_count") or 0) for x in rs)
+        rep=max(items,key=lambda z:int(z.get("cumulative_sales_count") or 0))
+        status="BOTH_FOUND" if fl and rs else ("FLAGSHIP_ONLY" if fl else "RESELLER_ONLY_UNVERIFIED")
+        sku_rows.append({
+            "brand_id":bid,"canonical_key":k,"canonical_product_name":rep.get("product_name"),
+            "listing_count":len(items),"flagship_listing_count":len(fl),"reseller_listing_count":len(rs),
+            "official_presence_status":status,"observed_cumulative_sales_count":total,
+            "flagship_sales_count":fs if fl else None,"reseller_sales_count":rss,
+            "reseller_sales_share_pct":round(100*rss/total,2) if total and fl and rs else None,
+            "representative_goods_code":rep.get("goods_code"),"representative_seller":rep.get("shop_name"),
+            "mapping_rule":"strict normalized-title grouping; no fuzzy merge"
+        })
+    sku_rows.sort(key=lambda x:int(x["observed_cumulative_sales_count"] or 0),reverse=True)
+    save(OUT/"06_sku_index.csv",sku_rows)
+    save(OUT/"07_sku_verified_both_found.csv",[x for x in sku_rows if x["official_presence_status"]=="BOTH_FOUND"])
 
     progress["stage"]="completed"
     progress["raw_search_rows"]=len(search_rows); progress["duplicate_rows_same_goods_code"]=dups; progress["unique_goods_code_count"]=len(unique)
