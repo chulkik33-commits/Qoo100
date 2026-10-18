@@ -1,0 +1,37 @@
+name: Qoo10 Missing Sales Backfill
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'qoo10/backfill_missing_sales.py'
+      - '.github/workflows/missing_sales_backfill.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download previous full-partition artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p qoo10/input_previous
+          gh run download 39107640445 -n qoo10-top3-full-partition-39107640445 -D qoo10/input_previous
+          ls -la qoo10/input_previous
+      - run: |
+          pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+      - name: Backfill missing sales fields
+        run: python qoo10/backfill_missing_sales.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qoo10-missing-sales-backfill-${{ github.run_id }}
+          path: qoo10/output_missing_sales_backfill/
+          retention-days: 90
