@@ -1,0 +1,25 @@
+name: Qoo10 Pagination Probe
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'qoo10/probe_pagination.py'
+      - '.github/workflows/probe_pagination.yml'
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+      - run: python qoo10/probe_pagination.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qoo10-pagination-probe-${{ github.run_id }}
+          path: qoo10/pagination_probe/
