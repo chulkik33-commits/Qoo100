@@ -1,4 +1,4 @@
-import asyncio,csv,json,math,re,random
+import asyncio,csv,json,math,re,random,os
 from collections import defaultdict
 from datetime import datetime,timezone
 from pathlib import Path
@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
 ROOT=Path(__file__).resolve().parent
-BRANDS=ROOT/"category_brand_universe_v1.csv"
-OUT=ROOT/"output_category_brand_index";OUT.mkdir(parents=True,exist_ok=True)
+BRANDS=ROOT/os.getenv("BRAND_UNIVERSE","category_brand_universe_v1.csv")
+OUT=ROOT/os.getenv("OUTPUT_DIR","output_category_brand_index");OUT.mkdir(parents=True,exist_ok=True)
 PAGES=3;PAGE_SIZE=40;SEARCH_CONC=8;DETAIL_CONC=4;RETRIES=5
 
 def clean(s):return re.sub(r"\s+"," ",(s or "")).strip()
@@ -63,6 +63,10 @@ def save(path,rows):
 
 async def main():
     with open(BRANDS,encoding="utf-8-sig") as f:brands=list(csv.DictReader(f))
+    batch=int(os.getenv("BATCH_SIZE","0"))
+    if batch:
+        offset=int(os.getenv("BATCH_OFFSET","0"))
+        brands=brands[offset:offset+batch]
     progress={"run_id":datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"),"stage":"search","brands":{},"issues":[]}
     async with async_playwright() as p:
         b=await p.chromium.launch(headless=True,args=["--no-sandbox"]);c=await b.new_context(locale="ja-JP",timezone_id="Asia/Tokyo")
