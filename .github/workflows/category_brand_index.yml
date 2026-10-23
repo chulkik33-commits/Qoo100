@@ -1,0 +1,27 @@
+name: Qoo10 Fresh Category Brand Index
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'qoo10/category_brand_universe_v1.csv'
+      - 'qoo10/collect_category_brand_index.py'
+      - '.github/workflows/category_brand_index.yml'
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          pip install playwright==1.55.0 beautifulsoup4==4.12.3
+          python -m playwright install --with-deps chromium
+      - run: python qoo10/collect_category_brand_index.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qoo10-fresh-category-brand-index-${{ github.run_id }}
+          path: qoo10/output_category_brand_index/
+          retention-days: 90
