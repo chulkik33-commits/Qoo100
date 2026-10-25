@@ -1,0 +1,22 @@
+name: Shopee TW - validate collected observations
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Normalize and verify
+        run: python shopee_tw/collector/normalize.py
+      - name: Upload output
+        uses: actions/upload-artifact@v4
+        with:
+          name: shopee-tw-validated
+          path: shopee_tw/output/
+          retention-days: 7
