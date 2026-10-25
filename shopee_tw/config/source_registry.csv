@@ -1,0 +1,5 @@
+source_id,source_name,region,requires_credentials,zero_cash_verified,tw_available_verified,competitor_shops_supported,all_market_listings_supported,status
+SHOPEE_SELLER_OPEN_API,Shopee Seller Open Platform,TW,yes,unknown,yes,no,no,rejected_for_competitor_discovery
+SHOPEE_AFFILIATE_API,Shopee Affiliate Open API,TW,yes,unknown,no,unknown,no,needs_taiwan_access_verification
+AUTHORIZED_EXPORT,Permissioned third-party CSV export,TW,depends,depends,depends,depends,depends,connect_when_authorized
+PUBLIC_SEARCH,Regular public search results,TW,no,yes,yes,partial,no,not_authorized_for_bulk_automation
