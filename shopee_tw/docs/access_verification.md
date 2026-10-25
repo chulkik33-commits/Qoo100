@@ -22,3 +22,29 @@ https://help.shopee.tw/portal/4/article/77267-
 ## No false positives
 GitHub Actions successful = processing environment works; 0 newly scraped shops, no market-wide completeness.
 Source connection considered successful ONLY after observed live TW records have source URL + capture time and supported permission evidence.
+
+
+## Dual-track investigation 2026-10-25
+
+### Track A — affiliate API
+- Taiwan affiliate program officially exists and says joining is free:
+  https://shopee.tw/m/affiliateprogram
+- Singapore Shopee official help states affiliate API supports Shopee/brand/product offer lists, short links, conversion reports:
+  https://help.shopee.sg/portal/10/article/191702-API-Access
+- A Taiwan independent article describes a separate Affiliate Open API entry at affiliate.shopee.tw, distinct from Seller Open API:
+  https://9527.com.tw/journey/shopee-api-waiting/
+- This does NOT establish that the user's TW account has API approval or that non-affiliate seller inventories are included. NO endpoint, token or calls configured. Pending explicit approval and usable documentation.
+
+### Track B — licensed existing datasets / price comparison
+- Rebrowser offers Shopee dataset preview on GitHub including Taiwan and stable itemId/shopId:
+  https://github.com/rebrowser/shopee-dataset
+- Its stated free license is **research and non-commercial only**; business use requires paid license. Under a strict zero-cash commercial model this is not an approved source to ingest. Do not run it in this repository.
+- FindPrice Taiwan indexes Shopee seller names and listings by brand:
+  https://www.findprice.com.tw/b/jungsaemmool
+  This demonstrates seller discovery coverage beyond the manually observed 30 names, but does not itself confer permission for unattended bulk capture or exhaustive coverage.
+- Shopee official help confirms hottest-selling search sort for products and shops:
+  https://help.shopee.tw/portal/4/article/119666
+  User-visible results do not constitute an approved bulk automated feed.
+
+### Decision
+No approved, zero-cost **commercial-use** source has yet passed all checks. Keep live collection DISABLED, historical import active. Prioritize verifying TW Affiliate API access/scope before changing source_adapter; in parallel contact data publishers for written commercial-use authorization at zero cost, if available. Never claim Actions normalization is live marketplace collection.
