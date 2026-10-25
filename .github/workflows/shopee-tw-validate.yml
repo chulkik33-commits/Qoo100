@@ -12,7 +12,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Normalize and verify
+      - name: Test normalization (synthetic sample)
+        run: python shopee_tw/tests/test_pipeline.py
+      - name: Normalize and verify input
         run: python shopee_tw/collector/normalize.py
       - name: Upload output
         uses: actions/upload-artifact@v4
