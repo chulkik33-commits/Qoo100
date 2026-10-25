@@ -1,0 +1,10 @@
+{
+  "reviewed_at": "2026-10-25",
+  "sources": [
+    {"id":"rebrowser", "status":"rejected", "evidence_url":"https://github.com/rebrowser/shopee-dataset", "reason":"Public preview explicitly limited to research and non-commercial use."},
+    {"id":"feebee", "status":"blocked_permission", "evidence_url":"https://feebee.com.tw/terms/", "reason":"Section 12.5 and 12.8 require prior written consent for commercial reuse, storage and systematic extraction."},
+    {"id":"biggo", "status":"blocked_permission", "evidence_url":"https://biggo.com.tw/official/disclaimers", "reason":"Datafeed/API describes inbound sources; no verified free outbound commercial feed permission found."},
+    {"id":"shoeep_dataset", "status":"blocked_license", "evidence_url":"https://github.com/zhezhouhongen/shoeep_Dataset", "reason":"Separate DATA_LICENSE.md referenced; exact data grant could not be retrieved. No commercial grant verified."},
+    {"id":"taiwan_open_data", "status":"out_of_scope", "evidence_url":"https://data.gov.tw/en/datasets/9580", "reason":"Cosmetics permit records are not Shopee seller-product-price-sales observations."}
+  ]
+}

@@ -1,0 +1,32 @@
+name: Shopee TW - TRACK B permissioned sources
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'shopee_tw/track_b/**'
+      - 'shopee_tw/tests/test_track_b.py'
+      - '.github/workflows/shopee-tw-track-b.yml'
+permissions:
+  contents: read
+jobs:
+  track-b:
+    # This repository is public. Refuse private-repository hosted runner usage.
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test source blocking and historical separation
+        run: python shopee_tw/tests/test_track_b.py
+      - name: Run TRACK B
+        run: python shopee_tw/track_b/run.py
+      - name: Report actual collection status
+        run: cat shopee_tw/output/track_b/RUN_STATUS.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shopee-tw-track-b
+          path: shopee_tw/output/track_b/
+          retention-days: 7
