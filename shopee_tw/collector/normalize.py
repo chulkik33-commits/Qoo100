@@ -32,7 +32,10 @@ def main():
         sk=r["shop_id"] or r["shop_url"].split("?")[0].rstrip("/")
         if sk:
             shops.setdefault(sk,{"shop_id":r["shop_id"],"shop_name":r["shop_name"],"shop_url":r["shop_url"],"observed_products":0})
-            if k:shops[sk]["observed_products"]+=1
+            # Count unique listings per shop only after deduplication
+    for r in unique.values():
+        sk=r["shop_id"] or r["shop_url"].split("?")[0].rstrip("/")
+        if sk in shops: shops[sk]["observed_products"]+=1
     def export(name,cols,rows):
         with open(out/name,"w",encoding="utf-8-sig",newline="") as f:
             w=csv.DictWriter(f,fieldnames=cols,extrasaction="ignore");w.writeheader();w.writerows(rows)
