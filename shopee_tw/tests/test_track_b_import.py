@@ -34,4 +34,13 @@ with tempfile.TemporaryDirectory() as directory:
     assert report2["input_capture_files"] == 2
     assert report2["unique_listing_keys"] == 26
     assert [r["status"] for r in report2["capture_pages"]] == ["page_error", "captured_visible_cards"]
+    detail = Path(directory) / "detail"
+    detail.mkdir()
+    (detail / "capture_detail.json").write_text(json.dumps({"captured_at": "2026-10-26T13:29:00Z",
+        "records": [], "coverage": {"url": "https://shopee.tw/-JUNG-SAEM-MOOL-i.1182369951.56003249978",
+        "status": "no_matching_cards"}}))
+    report3 = module.run(None, None, Path(directory) / "detail_output", detail)
+    assert report3["raw_rows"] == 0
+    assert report3["incomplete_rows"] == 1
+    assert report3["capture_pages"][0]["status"] == "detail_identifier_only"
 print("Track B saved observation import passed")

@@ -42,6 +42,38 @@
         marketplace_coverage: "unknown", page_error_text: pageError || ""}
     };
   }
-  root.TrackBCapture = {normalizeCards};
-  if (typeof module !== "undefined" && module.exports) module.exports = {normalizeCards};
+  function normalizePage(page, capturedAt) {
+    const result = normalizeCards(page.cards || [], page.page_url, capturedAt, page.page_error);
+    const detailId = String(page.page_url || "").match(PRODUCT);
+    if (!detailId || page.page_error) return result;
+    // Product-detail pages can contain recommendation cards. They are not the
+    // item the user opened and must not replace it.
+    result.records = [];
+    result.coverage.matching_cards = 0;
+
+    const title = String(page.detail_title || "").replace(/\s*[|｜]\s*蝦皮購物.*$/i, "").trim();
+    if (!BRAND.test(title.normalize("NFKC"))) {
+      result.coverage.status = "detail_identifier_only";
+      result.identifier_lead = {shop_id: detailId[1], item_id: detailId[2],
+        product_url: page.page_url.split("?")[0], source_url: page.page_url,
+        collected_at: capturedAt};
+      return result;
+    }
+    const prices = [...new Set((page.price_candidates || []).map(x => String(x).trim()))];
+    const sold = [...new Set((page.sold_candidates || []).map(x => String(x).trim()))];
+    const price = prices.length === 1 && /^\$\s*[\d,]+$/.test(prices[0])
+      ? prices[0].replace(/[^\d]/g, "") : "";
+    result.records.push({brand: "JUNGSAEMMOOL", query: "jungsaemmool",
+      shop_name: "", shop_url: "", shop_id: detailId[1], item_id: detailId[2],
+      product_name: title, product_url: page.page_url.split("?")[0],
+      price_twd: price, sold_display: sold.length === 1 ? sold[0] : "",
+      sold_period: "unknown", source_url: page.page_url, collected_at: capturedAt});
+    result.coverage.status = "captured_product_detail";
+    result.coverage.matching_cards = 1;
+    result.coverage.price_basis = price ? "single_visible_price_candidate" : "unknown_or_ambiguous";
+    result.coverage.sold_basis = sold.length === 1 ? "single_visible_sold_candidate" : "unknown_or_ambiguous";
+    return result;
+  }
+  root.TrackBCapture = {normalizeCards, normalizePage};
+  if (typeof module !== "undefined" && module.exports) module.exports = {normalizeCards, normalizePage};
 })(globalThis);

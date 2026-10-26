@@ -20,7 +20,19 @@ IDS = re.compile(r"-i\.(\d+)\.(\d+)(?:[/?#]|$)")
 
 def read_probe(path):
     data = json.loads(Path(path).read_text(encoding="utf-8"))
-    return data.get("records", []), data.get("coverage", {})
+    rows = data.get("records", [])
+    coverage = data.get("coverage", {})
+    # Version 0.1 recorded no row on a product-detail page. Preserve the URL
+    # identifiers as an incomplete lead; no title, price or sold count is inferred.
+    if not rows and coverage.get("status") in ("no_matching_cards", "detail_identifier_only"):
+        url = coverage.get("url", "")
+        match = IDS.search(url)
+        if match:
+            rows = [dict(shop_id=match[1], item_id=match[2], product_url=url.split("?")[0],
+                         source_url=url, collected_at=data.get("captured_at", ""),
+                         _reason="detail_url_identifier_only")]
+            coverage = dict(coverage, status="detail_identifier_only", matching_cards=0)
+    return rows, coverage
 
 
 def read_offline_zip(path):
@@ -76,8 +88,9 @@ def run(probe, offline_zip, out, capture_dir=None):
     for record in records:
         row = row_from(record)
         missing = [name for name in ("shop_id", "item_id", "product_url", "source_url", "collected_at") if not row[name]]
-        if missing:
-            incomplete.append(dict(row, reason="missing_" + ",".join(missing)))
+        reason = record.get("_reason") or ("missing_" + ",".join(missing) if missing else "")
+        if reason:
+            incomplete.append(dict(row, reason=reason))
         else:
             accepted.append(row)
     write_csv(out / "observations.csv", accepted, FIELDS)
