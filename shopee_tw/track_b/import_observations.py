@@ -84,6 +84,8 @@ def run(probe, offline_zip, out, capture_dir=None):
             records.extend(rows)
             capture_pages.append(dict(coverage, evidence_file=file.name))
     records += read_offline_zip(offline_zip) if offline_zip else []
+    possible_sold_suffix_loss = [f"{r.get('shop_id')}:{r.get('item_id')}" for r in records
+                                 if re.search(r"[\d][萬千Kk]$", str(r.get("sold_display", "")))]
     accepted, incomplete = [], []
     for record in records:
         row = row_from(record)
@@ -107,6 +109,7 @@ def run(probe, offline_zip, out, capture_dir=None):
     report.update(track="B", brand="JUNGSAEMMOOL", input_probe=bool(probe),
                   input_offline_zip=bool(offline_zip), incomplete_rows=len(incomplete),
                   input_capture_files=len(capture_pages), capture_pages=capture_pages,
+                  possible_sold_suffix_loss=possible_sold_suffix_loss,
                   unverified_search_lead_shops=len(set(r["shop_id"] for r in leads)),
                   collection_status="partial_observation" if accepted else "no_valid_observation",
                   search_results_exhausted=False, marketplace_coverage="unknown",

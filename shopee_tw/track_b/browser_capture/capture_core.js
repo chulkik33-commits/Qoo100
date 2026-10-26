@@ -2,7 +2,7 @@
   "use strict";
   const PRODUCT = /-i\.(\d+)\.(\d+)(?:[/?#]|$)/;
   const BRAND = /jung\s*saem\s*mool|jungsaemmool|鄭[瑄宣][茉沫]/i;
-  const SOLD = /(?:已售出|已售)\s*([\d,.]+\s*[萬千Kk+]?)/;
+  const SOLD = /(?:已售出|已售)\s*([\d,.]+\s*[萬千Kk]?\+?)/;
   const PRICE = /(?:NT\s*)?\$\s*([\d,]+)/;
 
   function normalizeCards(cards, pageUrl, capturedAt, pageError) {

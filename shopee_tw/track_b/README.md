@@ -9,6 +9,8 @@ Search indexing yielded 5 additional shop IDs in `evidence/search_index_leads_20
 
 The next technical capture route is the user-triggered Chrome tool in `browser_capture/README_KO.md`. It extracts only rendered cards from the open page and writes local JSON, with no automatic navigation or remote service. `import_observations.py --capture-dir <folder>` combines captures and records each page's status; no page coverage is inferred from missing files. Its extraction function was tested against the 28 actual card payloads saved from the first browser session (26 relevant, 2 unrelated). Installation and Shopee navigation on the user's local Chrome remain untested.
 
+The user-submitted 2026-10-26 13:35:38 UTC search capture in `evidence/captures/` verified the extension works on the local Chrome search page: 16 products across 10 shops, adding 7 item IDs and 2 shop IDs versus the earlier first-page probe. Some cards are loaded lazily, so a page capture is not page completion. The v0.1 extension truncated the plus suffix in one displayed sold value (`1萬+` became `1萬`); the parser is corrected and this prior row is flagged as potentially truncated, without inventing a replacement value.
+
 | Source | Decision | Evidence |
 |---|---|---|
 | Rebrowser public sample | Excluded: research/non-commercial license | https://github.com/rebrowser/shopee-dataset |

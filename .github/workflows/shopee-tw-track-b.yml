@@ -26,7 +26,7 @@ jobs:
       - name: Test visible page extraction against observed cards
         run: node shopee_tw/track_b/browser_capture/test_capture.js shopee_tw/track_b/browser_capture/fixture_cards.json
       - name: Import saved observations
-        run: python shopee_tw/track_b/import_observations.py --probe shopee_tw/track_b/evidence/observed_20261026.json --out shopee_tw/output/track_b
+        run: python shopee_tw/track_b/import_observations.py --probe shopee_tw/track_b/evidence/observed_20261026.json --capture-dir shopee_tw/track_b/evidence/captures --out shopee_tw/output/track_b
       - name: Report actual collection status
         run: cat shopee_tw/output/track_b/RUN_STATUS.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4

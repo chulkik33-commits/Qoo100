@@ -10,6 +10,7 @@ spec = importlib.util.spec_from_file_location("track_b_import", root / "track_b/
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 probe = root / "track_b/evidence/observed_20261026.json"
+submitted = root / "track_b/evidence/captures"
 
 with tempfile.TemporaryDirectory() as directory:
     zip_path = Path(directory) / "offline.zip"
@@ -43,4 +44,9 @@ with tempfile.TemporaryDirectory() as directory:
     assert report3["raw_rows"] == 0
     assert report3["incomplete_rows"] == 1
     assert report3["capture_pages"][0]["status"] == "detail_identifier_only"
+    combined = module.run(probe, None, Path(directory) / "combined", submitted)
+    assert combined["raw_rows"] == 42
+    assert combined["unique_listing_keys"] == 33
+    assert combined["unique_shop_keys"] == 19
+    assert combined["possible_sold_suffix_loss"] == ["1182369951:29912324256"]
 print("Track B saved observation import passed")
