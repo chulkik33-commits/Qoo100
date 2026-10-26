@@ -1,0 +1,303 @@
+{
+  "structured_at": "2026-10-26T12:09:30.084Z",
+  "observation_time_note": "Captured during authenticated browser probe on 2026-10-26; per-row collected_at records structuring time, not exact DOM capture time.",
+  "scope": "Partial first search page only, including one related-shop product; 2 unrelated recommendations excluded",
+  "records": [
+    {
+      "shop_id": "1033455449",
+      "item_id": "41034172152",
+      "product_name": "𝑱𝒖𝒏𝒈𝑺𝒂𝒆𝒎𝑴𝒐𝒐𝒍 鄭宣沫 🇰🇷氣墊 持玖水光憾遮瑕氣墊粉餅 SPF50+ 粉底液 遮瑕 粉底盤 bb",
+      "price_twd": "479",
+      "sold_display": "已售出 5",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%F0%9D%91%B1%F0%9D%92%96%F0%9D%92%8F%F0%9D%92%88%F0%9D%91%BA%F0%9D%92%82%F0%9D%92%86%F0%9D%92%8E%F0%9D%91%B4%F0%9D%92%90%F0%9D%92%90%F0%9D%92%8D-%E9%84%AD%E5%AE%A3%E6%B2%AB-%F0%9F%87%B0%F0%9F%87%B7%E6%B0%A3%E5%A2%8A-%E6%8C%81%E7%8E%96%E6%B0%B4%E5%85%89%E6%86%BE%E9%81%AE%E7%91%95%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-SPF50-%E7%B2%89%E5%BA%95%E6%B6%B2-%E9%81%AE%E7%91%95-%E7%B2%89%E5%BA%95%E7%9B%A4-bb-i.1033455449.41034172152",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.956Z"
+    },
+    {
+      "shop_id": "111518986",
+      "item_id": "21343788332",
+      "product_name": "【JUNG SAEM MOOL】鄭瑄茉 超持久光感裸膚氣墊粉餅 超持久霧感 氣墊粉餅 氣墊",
+      "price_twd": "599",
+      "sold_display": "已售出 7000+",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E3%80%90JUNG-SAEM-MOOL%E3%80%91%E9%84%AD%E7%91%84%E8%8C%89-%E8%B6%85%E6%8C%81%E4%B9%85%E5%85%89%E6%84%9F%E8%A3%B8%E8%86%9A%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-%E8%B6%85%E6%8C%81%E4%B9%85%E9%9C%A7%E6%84%9F-%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-%E6%B0%A3%E5%A2%8A-i.111518986.21343788332",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.956Z"
+    },
+    {
+      "shop_id": "1012087",
+      "item_id": "2204966281",
+      "product_name": "限時特價~韓國連線 10/26收單 JUNG SAEM MOOL 鄭瑄茉 氣墊粉餅 氣墊粉霜 小U連線 光感/霧面",
+      "price_twd": "850",
+      "sold_display": "已售出 2000+",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E9%99%90%E6%99%82%E7%89%B9%E5%83%B9~%E9%9F%93%E5%9C%8B%E9%80%A3%E7%B7%9A-10-26%E6%94%B6%E5%96%AE-JUNG-SAEM-MOOL-%E9%84%AD%E7%91%84%E8%8C%89-%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%9C%9C-%E5%B0%8FU%E9%80%A3%E7%B7%9A-%E5%85%89%E6%84%9F-%E9%9C%A7%E9%9D%A2-i.1012087.2204966281",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.956Z"
+    },
+    {
+      "shop_id": "1182369951",
+      "item_id": "29912324256",
+      "product_name": "[JUNG SAEM MOOL] Essential Skin Nuder Cushion 14g 7 Types",
+      "price_twd": "347",
+      "sold_display": "已售出 1萬+",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/-JUNG-SAEM-MOOL-Essential-Skin-Nuder-Cushion-14g-7-Types-i.1182369951.29912324256",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.956Z"
+    },
+    {
+      "shop_id": "9399958",
+      "item_id": "13695905438",
+      "product_name": "【BRINGO】JUNG SAEM MOOL 鄭瑄茉 超持久光感裸膚氣墊粉餅 超持久霧感 氣墊粉餅 超持久遮瑕 氣墊",
+      "price_twd": "599",
+      "sold_display": "已售出 1000+",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E3%80%90BRINGO%E3%80%91JUNG-SAEM-MOOL-%E9%84%AD%E7%91%84%E8%8C%89-%E8%B6%85%E6%8C%81%E4%B9%85%E5%85%89%E6%84%9F%E8%A3%B8%E8%86%9A%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-%E8%B6%85%E6%8C%81%E4%B9%85%E9%9C%A7%E6%84%9F-%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-%E8%B6%85%E6%8C%81%E4%B9%85%E9%81%AE%E7%91%95-%E6%B0%A3%E5%A2%8A-i.9399958.13695905438",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "111518986",
+      "item_id": "20322278501",
+      "product_name": "【JUNG SAEM MOOL】鄭瑄茉微粒精華定妝噴霧 55ml 保溼 定妝噴霧 Micro Fitting",
+      "price_twd": "500",
+      "sold_display": "已售出 786",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E3%80%90JUNG-SAEM-MOOL%E3%80%91%E9%84%AD%E7%91%84%E8%8C%89%E5%BE%AE%E7%B2%92%E7%B2%BE%E8%8F%AF%E5%AE%9A%E5%A6%9D%E5%99%B4%E9%9C%A7-55ml-%E4%BF%9D%E6%BA%BC-%E5%AE%9A%E5%A6%9D%E5%99%B4%E9%9C%A7-Micro-Fitting-i.111518986.20322278501",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "756717495",
+      "item_id": "14180105823",
+      "product_name": "[Jung Saem Mool] 鄭瑄茉氣墊 超持久光感遮瑕氣墊粉餅 SPF50+ PA+++ 鄭宣茉 粉底液",
+      "price_twd": "468",
+      "sold_display": "已售出 2000+",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/-Jung-Saem-Mool-%E9%84%AD%E7%91%84%E8%8C%89%E6%B0%A3%E5%A2%8A-%E8%B6%85%E6%8C%81%E4%B9%85%E5%85%89%E6%84%9F%E9%81%AE%E7%91%95%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-SPF50-PA-%E9%84%AD%E5%AE%A3%E8%8C%89-%E7%B2%89%E5%BA%95%E6%B6%B2-i.756717495.14180105823",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1578819708",
+      "item_id": "40707449040",
+      "product_name": "[JUNGSAEMMOOL] 鄭瑄茉 防曬隔離霜 全系列妝前 40ml | 校色妝前乳 | 李孝利 | 提亮 | 潤色",
+      "price_twd": "540",
+      "sold_display": "已售出 642",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/-JUNGSAEMMOOL-%E9%84%AD%E7%91%84%E8%8C%89-%E9%98%B2%E6%9B%AC%E9%9A%94%E9%9B%A2%E9%9C%9C-%E5%85%A8%E7%B3%BB%E5%88%97%E5%A6%9D%E5%89%8D-40ml-%E6%A0%A1%E8%89%B2%E5%A6%9D%E5%89%8D%E4%B9%B3-%E6%9D%8E%E5%AD%9D%E5%88%A9-%E6%8F%90%E4%BA%AE-%E6%BD%A4%E8%89%B2-i.1578819708.40707449040",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "454733473",
+      "item_id": "19491189056",
+      "product_name": "現貨｜jung saem mool 鄭瑄茉｜定妝噴霧 精華細微噴霧 基本水極致定妝噴霧 保濕面霜 珍珠換顏亮膚水感乳",
+      "price_twd": "499",
+      "sold_display": "已售出 307",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E7%8F%BE%E8%B2%A8%EF%BD%9Cjung-saem-mool-%E9%84%AD%E7%91%84%E8%8C%89%EF%BD%9C%E5%AE%9A%E5%A6%9D%E5%99%B4%E9%9C%A7-%E7%B2%BE%E8%8F%AF%E7%B4%B0%E5%BE%AE%E5%99%B4%E9%9C%A7-%E5%9F%BA%E6%9C%AC%E6%B0%B4%E6%A5%B5%E8%87%B4%E5%AE%9A%E5%A6%9D%E5%99%B4%E9%9C%A7-%E4%BF%9D%E6%BF%95%E9%9D%A2%E9%9C%9C-%E7%8F%8D%E7%8F%A0%E6%8F%9B%E9%A1%8F%E4%BA%AE%E8%86%9A%E6%B0%B4%E6%84%9F%E4%B9%B3-i.454733473.19491189056",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1633262248",
+      "item_id": "51902199908",
+      "product_name": "JUNGSAEMMOOL 皮膚定型底霜 40ml(提亮防曬/提亮平衡/調校正/發光/平滑)",
+      "price_twd": "562",
+      "sold_display": "已售出 202",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/JUNGSAEMMOOL-%E7%9A%AE%E8%86%9A%E5%AE%9A%E5%9E%8B%E5%BA%95%E9%9C%9C-40ml(%E6%8F%90%E4%BA%AE%E9%98%B2%E6%9B%AC-%E6%8F%90%E4%BA%AE%E5%B9%B3%E8%A1%A1-%E8%AA%BF%E6%A0%A1%E6%AD%A3-%E7%99%BC%E5%85%89-%E5%B9%B3%E6%BB%91)-i.1633262248.51902199908",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1012087",
+      "item_id": "2595180160",
+      "product_name": "韓國連線 10/26收單Jung Saem mool 鄭瑄茉 藝術家氣墊腮紅 Artist Cheek Blush 腮紅",
+      "price_twd": "290",
+      "sold_display": "已售出 81",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E9%9F%93%E5%9C%8B%E9%80%A3%E7%B7%9A-10-26%E6%94%B6%E5%96%AEJung-Saem-mool-%E9%84%AD%E7%91%84%E8%8C%89-%E8%97%9D%E8%A1%93%E5%AE%B6%E6%B0%A3%E5%A2%8A%E8%85%AE%E7%B4%85-Artist-Cheek-Blush-%E8%85%AE%E7%B4%85-i.1012087.2595180160",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "756717495",
+      "item_id": "41300859336",
+      "product_name": "[Jung Saem Mool] 鄭瑄茉 Pro 持久無瑕貼合網狀氣墊 14g 粉底液妝前粉餅乳化妝遮瑕防曬彩妝霧面啞光",
+      "price_twd": "758",
+      "sold_display": "已售出 68",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/-Jung-Saem-Mool-%E9%84%AD%E7%91%84%E8%8C%89-Pro-%E6%8C%81%E4%B9%85%E7%84%A1%E7%91%95%E8%B2%BC%E5%90%88%E7%B6%B2%E7%8B%80%E6%B0%A3%E5%A2%8A-14g-%E7%B2%89%E5%BA%95%E6%B6%B2%E5%A6%9D%E5%89%8D%E7%B2%89%E9%A4%85%E4%B9%B3%E5%8C%96%E5%A6%9D%E9%81%AE%E7%91%95%E9%98%B2%E6%9B%AC%E5%BD%A9%E5%A6%9D%E9%9C%A7%E9%9D%A2%E5%95%9E%E5%85%89-i.756717495.41300859336",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "9399958",
+      "item_id": "18800029980",
+      "product_name": "凱咪老師大推👍【BRINGO】JUNGSAEMMOOL 鄭瑄茉 彩妝師專業六色遮瑕盤 遮瑕 彩色遮瑕 專業遮瑕 遮瑕盤",
+      "price_twd": "699",
+      "sold_display": "已售出 667",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E5%87%B1%E5%92%AA%E8%80%81%E5%B8%AB%E5%A4%A7%E6%8E%A8%F0%9F%91%8D%E3%80%90BRINGO%E3%80%91JUNGSAEMMOOL-%E9%84%AD%E7%91%84%E8%8C%89-%E5%BD%A9%E5%A6%9D%E5%B8%AB%E5%B0%88%E6%A5%AD%E5%85%AD%E8%89%B2%E9%81%AE%E7%91%95%E7%9B%A4-%E9%81%AE%E7%91%95-%E5%BD%A9%E8%89%B2%E9%81%AE%E7%91%95-%E5%B0%88%E6%A5%AD%E9%81%AE%E7%91%95-%E9%81%AE%E7%91%95%E7%9B%A4-i.9399958.18800029980",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "8489567",
+      "item_id": "29038389229",
+      "product_name": "【JUNG SAEM MOOL 鄭瑄茉】超持久光感裸膚氣墊粉餅SPF50+ / PA+++ 14g*2｜官方總代理直營",
+      "price_twd": "1131",
+      "sold_display": "已售出 31",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E3%80%90JUNG-SAEM-MOOL-%E9%84%AD%E7%91%84%E8%8C%89%E3%80%91%E8%B6%85%E6%8C%81%E4%B9%85%E5%85%89%E6%84%9F%E8%A3%B8%E8%86%9A%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85SPF50-PA-14g*2%EF%BD%9C%E5%AE%98%E6%96%B9%E7%B8%BD%E4%BB%A3%E7%90%86%E7%9B%B4%E7%87%9F-i.8489567.29038389229",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1182369951",
+      "item_id": "41168043910",
+      "product_name": "[JUNG SAEM MOOL] 藝術家氣墊腮紅 | 10 種顏色選擇",
+      "price_twd": "355",
+      "sold_display": "已售出 1000+",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/-JUNG-SAEM-MOOL-%E8%97%9D%E8%A1%93%E5%AE%B6%E6%B0%A3%E5%A2%8A%E8%85%AE%E7%B4%85-10-%E7%A8%AE%E9%A1%8F%E8%89%B2%E9%81%B8%E6%93%87-i.1182369951.41168043910",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "762462985",
+      "item_id": "24321512388",
+      "product_name": "JUNGSAEMMOOL大師級腮紅刷",
+      "price_twd": "629",
+      "sold_display": "已售出 100",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/JUNGSAEMMOOL%E5%A4%A7%E5%B8%AB%E7%B4%9A%E8%85%AE%E7%B4%85%E5%88%B7-i.762462985.24321512388",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "257530343",
+      "item_id": "19291639649",
+      "product_name": "JUNGSAEMMOOL 鄭瑄茉 裸膚光感氣墊粉餅 (一正一替/14g*2) - 水光裸妝 保濕透亮 經典氣墊",
+      "price_twd": "830",
+      "sold_display": "已售出 181",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/JUNGSAEMMOOL-%E9%84%AD%E7%91%84%E8%8C%89-%E8%A3%B8%E8%86%9A%E5%85%89%E6%84%9F%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-(%E4%B8%80%E6%AD%A3%E4%B8%80%E6%9B%BF-14g*2)-%E6%B0%B4%E5%85%89%E8%A3%B8%E5%A6%9D-%E4%BF%9D%E6%BF%95%E9%80%8F%E4%BA%AE-%E7%B6%93%E5%85%B8%E6%B0%A3%E5%A2%8A-i.257530343.19291639649",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "395360459",
+      "item_id": "45462011857",
+      "product_name": "現貨｜jungsaemmool 鄭瑄茉｜總代理授權｜超持久霧感裸膚氣墊粉餅 超持久光感遮瑕氣墊粉餅",
+      "price_twd": "690",
+      "sold_display": "已售出 11",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E7%8F%BE%E8%B2%A8%EF%BD%9Cjungsaemmool-%E9%84%AD%E7%91%84%E8%8C%89%EF%BD%9C%E7%B8%BD%E4%BB%A3%E7%90%86%E6%8E%88%E6%AC%8A%EF%BD%9C%E8%B6%85%E6%8C%81%E4%B9%85%E9%9C%A7%E6%84%9F%E8%A3%B8%E8%86%9A%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-%E8%B6%85%E6%8C%81%E4%B9%85%E5%85%89%E6%84%9F%E9%81%AE%E7%91%95%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-i.395360459.45462011857",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "395360459",
+      "item_id": "23849925811",
+      "product_name": "現貨｜jung saem mool 鄭瑄茉｜定妝噴霧 精華細微噴霧 基本水極致定妝噴霧 保濕面霜 珍珠換顏亮膚水感乳",
+      "price_twd": "499",
+      "sold_display": "已售出 29",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E7%8F%BE%E8%B2%A8%EF%BD%9Cjung-saem-mool-%E9%84%AD%E7%91%84%E8%8C%89%EF%BD%9C%E5%AE%9A%E5%A6%9D%E5%99%B4%E9%9C%A7-%E7%B2%BE%E8%8F%AF%E7%B4%B0%E5%BE%AE%E5%99%B4%E9%9C%A7-%E5%9F%BA%E6%9C%AC%E6%B0%B4%E6%A5%B5%E8%87%B4%E5%AE%9A%E5%A6%9D%E5%99%B4%E9%9C%A7-%E4%BF%9D%E6%BF%95%E9%9D%A2%E9%9C%9C-%E7%8F%8D%E7%8F%A0%E6%8F%9B%E9%A1%8F%E4%BA%AE%E8%86%9A%E6%B0%B4%E6%84%9F%E4%B9%B3-i.395360459.23849925811",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1578819708",
+      "item_id": "43907460554",
+      "product_name": "[JUNGSAEMMOOL] 鄭瑄茉 超持久光感裸膚氣墊粉餅 SPF50+ PA+++(包括補充裝)",
+      "price_twd": "825",
+      "sold_display": "已售出 99",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/-JUNGSAEMMOOL-%E9%84%AD%E7%91%84%E8%8C%89-%E8%B6%85%E6%8C%81%E4%B9%85%E5%85%89%E6%84%9F%E8%A3%B8%E8%86%9A%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-SPF50-PA-(%E5%8C%85%E6%8B%AC%E8%A3%9C%E5%85%85%E8%A3%9D)-i.1578819708.43907460554",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1457363820",
+      "item_id": "40561060491",
+      "product_name": "JUNGSAEMMOOL Masterclass Powder Foundation 9.5g l 2026 New l",
+      "price_twd": "1220",
+      "sold_display": "已售出 78",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/JUNGSAEMMOOL-Masterclass-Powder-Foundation-9.5g-l-2026-New-l-i.1457363820.40561060491",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1565878749",
+      "item_id": "29943985767",
+      "product_name": "🇰🇷 [ZOOM By JUNG SAEM MOOL] 露水抹刀粉底,25ml(3 種顏色)",
+      "price_twd": "179",
+      "sold_display": "已售出 179",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%F0%9F%87%B0%F0%9F%87%B7-ZOOM-By-JUNG-SAEM-MOOL-%E9%9C%B2%E6%B0%B4%E6%8A%B9%E5%88%80%E7%B2%89%E5%BA%95-25ml(3-%E7%A8%AE%E9%A1%8F%E8%89%B2)-i.1565878749.29943985767",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1182369951",
+      "item_id": "50754994176",
+      "product_name": "[JUNG SAEM MOOL] Essential Mool Cream Light 30ml、50ml(玻璃皮膚、底",
+      "price_twd": "527",
+      "sold_display": "已售出 84",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/-JUNG-SAEM-MOOL-Essential-Mool-Cream-Light-30ml%E3%80%8150ml(%E7%8E%BB%E7%92%83%E7%9A%AE%E8%86%9A%E3%80%81%E5%BA%95-i.1182369951.50754994176",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1662507224",
+      "item_id": "54604202729",
+      "product_name": "[JUNGSAEMMOOL] Essential Skin Nuder Cushion 氣墊 + 補充裝",
+      "price_twd": "614",
+      "sold_display": "已售出 48",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/-JUNGSAEMMOOL-Essential-Skin-Nuder-Cushion-%E6%B0%A3%E5%A2%8A-%E8%A3%9C%E5%85%85%E8%A3%9D-i.1662507224.54604202729",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1012087",
+      "item_id": "16597962247",
+      "product_name": "韓國連線 10/26收單 JUNG SAEM MOOL 鄭瑄茉 極致服貼光感氣墊粉餅 氣墊粉餅 氣墊粉霜",
+      "price_twd": "980",
+      "sold_display": "已售出 68",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/%E9%9F%93%E5%9C%8B%E9%80%A3%E7%B7%9A-10-26%E6%94%B6%E5%96%AE-JUNG-SAEM-MOOL-%E9%84%AD%E7%91%84%E8%8C%89-%E6%A5%B5%E8%87%B4%E6%9C%8D%E8%B2%BC%E5%85%89%E6%84%9F%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%A4%85-%E6%B0%A3%E5%A2%8A%E7%B2%89%E9%9C%9C-i.1012087.16597962247",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    },
+    {
+      "shop_id": "1608871741",
+      "item_id": "40469349968",
+      "product_name": "[JUNG SAEM MOOL] Skin Setting Tone-up Sun Base SPF50+/40ml",
+      "price_twd": "529",
+      "sold_display": "已售出 25",
+      "sold_period": "unknown",
+      "product_url": "https://shopee.tw/-JUNG-SAEM-MOOL-Skin-Setting-Tone-up-Sun-Base-SPF50-40ml-i.1608871741.40469349968",
+      "source_url": "https://shopee.tw/search?keyword=jungsaemmool&is_from_login=true",
+      "collected_at": "2026-10-26T12:08:44.957Z"
+    }
+  ],
+  "coverage": {
+    "pages_displayed": 17,
+    "pages_completed": 0,
+    "partial_page": 1,
+    "page_2_status": "site_page_cannot_display_after_one_reload",
+    "repeatable_live_collection_verified": false,
+    "marketplace_coverage": "unknown",
+    "shop_names_collected": false,
+    "sales_period_verified": false
+  }
+}

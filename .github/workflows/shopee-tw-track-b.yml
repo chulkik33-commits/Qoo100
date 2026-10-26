@@ -1,4 +1,4 @@
-name: Shopee TW - TRACK B permissioned sources
+name: Shopee TW - TRACK B observations
 on:
   workflow_dispatch:
   push:
@@ -21,8 +21,10 @@ jobs:
           python-version: '3.11'
       - name: Test source blocking and historical separation
         run: python shopee_tw/tests/test_track_b.py
-      - name: Run TRACK B
-        run: python shopee_tw/track_b/run.py
+      - name: Test saved observation import
+        run: python shopee_tw/tests/test_track_b_import.py
+      - name: Import saved observations
+        run: python shopee_tw/track_b/import_observations.py --probe shopee_tw/track_b/evidence/observed_20261026.json --out shopee_tw/output/track_b
       - name: Report actual collection status
         run: cat shopee_tw/output/track_b/RUN_STATUS.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4

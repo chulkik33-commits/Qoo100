@@ -3,7 +3,7 @@
 Reviewed 2026-10-25 (Korea). Affiliate API excluded.
 
 ## Result
-No verified free source permitting commercial ingestion was found among the reviewed candidates. **Live connection and seller enumeration are not complete.** No marketplace requests are made. No paid service, free trial, proxy, CAPTCHA solver or undocumented endpoint is used.
+Saved browser observations from 2026-10-26 are imported: 26 product listings and 17 distinct numeric shop IDs from part of search page 1. Shop names and each seller's full inventory are unknown. The per-row time is the time of structuring the captured DOM, not the exact page capture time. One user-saved HTML diagnostic row lacks an observation time and is kept only in local `incomplete_observations.csv`, outside verified counts. Page 2 returned a generic display error in the signed-in browser session. **Live repeatable collection and seller enumeration are incomplete.** This pipeline makes no marketplace requests.
 
 | Source | Decision | Evidence |
 |---|---|---|
@@ -20,13 +20,14 @@ From repository root, Python 3.11+, standard library only:
 
 ```
 python shopee_tw/tests/test_track_b.py
-python shopee_tw/track_b/run.py
+python shopee_tw/tests/test_track_b_import.py
+python shopee_tw/track_b/import_observations.py --probe shopee_tw/track_b/evidence/observed_20261026.json
 ```
 
-Actions: `Shopee TW - TRACK B permissioned sources`, manually or on relevant pushes. Public-repository runners only, 3-minute limit, no external API credentials, no schedule. A green workflow reports successful validation, **not successful data collection**. The job summary and JSON state `blocked_no_verified_free_commercial_source`.
+Actions: `Shopee TW - TRACK B observations`, manually or on relevant pushes. Public-repository runners only, 3-minute limit, no external API credentials, no schedule. A green workflow means the **saved evidence was reprocessed**, not that a new Shopee page was collected. The job summary and JSON state `partial_observation`.
 
 ## Outputs
-`shopee_tw/output/track_b/`: empty verified observations/listings/seller CSVs with the existing schema; coverage report; source review; unverified historical seed CSV. The existing 30-row historical seed lacks original source URLs and collection timestamps and is never merged into verified records. It does not establish current inventory or seller completeness.
+`shopee_tw/output/track_b/`: observed listings/seller CSVs with the existing schema, incomplete observations CSV, and coverage report. The existing 30-row historical seed lacks original source URLs and collection timestamps and is never merged into verified records. It does not establish current inventory or seller completeness. `run.py` remains the separate no-source review command.
 
 Target fields remain: brand, query, shop_name, shop_url, shop_id, item_id, product_name, product_url, price_twd, sold_display, sold_period, source_url, collected_at. Blank sales is unknown, never zero; reviews/stock are not sales. Historical timestamps must never be replaced with execution time. Execution timestamp and data observation timestamp are separate.
 
