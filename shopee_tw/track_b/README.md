@@ -5,6 +5,8 @@ Reviewed 2026-10-25 (Korea). Affiliate API excluded.
 ## Result
 Saved browser observations from 2026-10-26 are imported: 26 product listings and 17 distinct numeric shop IDs from part of search page 1. Shop names and each seller's full inventory are unknown. The per-row time is the time of structuring the captured DOM, not the exact page capture time. One user-saved HTML diagnostic row lacks an observation time and is kept only in local `incomplete_observations.csv`, outside verified counts. Page 2 returned a generic display error in the signed-in browser session. **Live repeatable collection and seller enumeration are incomplete.** This pipeline makes no marketplace requests.
 
+Search indexing yielded 5 additional shop IDs in `evidence/search_index_leads_20261026.json`. They are exported only to `unverified_search_leads.csv`; indexed links have no verified current price, sold count or observation time and are not added to seller_master.
+
 | Source | Decision | Evidence |
 |---|---|---|
 | Rebrowser public sample | Excluded: research/non-commercial license | https://github.com/rebrowser/shopee-dataset |

@@ -20,6 +20,7 @@ with tempfile.TemporaryDirectory() as directory:
     assert report["raw_rows"] == report["unique_listing_keys"] == 26
     assert report["unique_shop_keys"] == 17
     assert report["incomplete_rows"] == 1
+    assert report["unverified_search_lead_shops"] == 5
     assert report["page_coverage"] == "first_search_page_partial"
     assert not report["search_results_exhausted"]
     assert "missing_collected_at" in (Path(directory) / "output/incomplete_observations.csv").read_text()

@@ -73,12 +73,18 @@ def run(probe, offline_zip, out):
             accepted.append(row)
     write_csv(out / "observations.csv", accepted, FIELDS)
     write_csv(out / "incomplete_observations.csv", incomplete, FIELDS + ["reason"])
+    # Indexed links expand the investigation queue, not the observed seller count.
+    lead_file = Path(__file__).parent / "evidence/search_index_leads_20261026.json"
+    leads = json.loads(lead_file.read_text(encoding="utf-8"))["records"] if lead_file.exists() else []
+    write_csv(out / "unverified_search_leads.csv", leads,
+              ["shop_id", "item_id", "indexed_url"])
     subprocess.run([sys.executable, str(ROOT / "shopee_tw/collector/normalize.py"),
                     "--input", str(out / "observations.csv"), "--out", str(out)], check=True)
     report_path = out / "coverage_report.json"
     report = json.loads(report_path.read_text(encoding="utf-8"))
     report.update(track="B", brand="JUNGSAEMMOOL", input_probe=bool(probe),
                   input_offline_zip=bool(offline_zip), incomplete_rows=len(incomplete),
+                  unverified_search_lead_shops=len(set(r["shop_id"] for r in leads)),
                   collection_status="partial_observation" if accepted else "no_valid_observation",
                   search_results_exhausted=False, marketplace_coverage="unknown",
                   page_coverage="first_search_page_partial" if probe else "unknown",
