@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Shopee TW visible page capture",
+  "version": "0.1.0",
+  "description": "User-triggered capture of product IDs and displayed fields from the open page.",
+  "permissions": ["activeTab", "scripting", "downloads"],
+  "background": {"service_worker": "background.js"},
+  "action": {"default_title": "Record this Shopee TW page"}
+}

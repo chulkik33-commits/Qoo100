@@ -24,4 +24,14 @@ with tempfile.TemporaryDirectory() as directory:
     assert report["page_coverage"] == "first_search_page_partial"
     assert not report["search_results_exhausted"]
     assert "missing_collected_at" in (Path(directory) / "output/incomplete_observations.csv").read_text()
+    captures = Path(directory) / "captures"
+    captures.mkdir()
+    (captures / "capture_error.json").write_text(json.dumps({"records": [], "coverage": {
+        "page": 1, "status": "page_error", "matching_cards": 0}}))
+    (captures / "capture_page1.json").write_text(json.dumps({"records": json.loads(probe.read_text())["records"],
+        "coverage": {"page": 0, "status": "captured_visible_cards", "matching_cards": 26}}))
+    report2 = module.run(None, None, Path(directory) / "captured_output", captures)
+    assert report2["input_capture_files"] == 2
+    assert report2["unique_listing_keys"] == 26
+    assert [r["status"] for r in report2["capture_pages"]] == ["page_error", "captured_visible_cards"]
 print("Track B saved observation import passed")

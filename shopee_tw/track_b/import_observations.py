@@ -58,10 +58,19 @@ def write_csv(path, rows, fields):
         writer.writerows(rows)
 
 
-def run(probe, offline_zip, out):
+def run(probe, offline_zip, out, capture_dir=None):
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     records, source_coverage = read_probe(probe) if probe else ([], {})
+    capture_pages = []
+    if capture_dir:
+        files = sorted(Path(capture_dir).glob("capture_*.json"))
+        if not files:
+            raise ValueError("No capture_*.json files in capture directory")
+        for file in files:
+            rows, coverage = read_probe(file)
+            records.extend(rows)
+            capture_pages.append(dict(coverage, evidence_file=file.name))
     records += read_offline_zip(offline_zip) if offline_zip else []
     accepted, incomplete = [], []
     for record in records:
@@ -84,10 +93,12 @@ def run(probe, offline_zip, out):
     report = json.loads(report_path.read_text(encoding="utf-8"))
     report.update(track="B", brand="JUNGSAEMMOOL", input_probe=bool(probe),
                   input_offline_zip=bool(offline_zip), incomplete_rows=len(incomplete),
+                  input_capture_files=len(capture_pages), capture_pages=capture_pages,
                   unverified_search_lead_shops=len(set(r["shop_id"] for r in leads)),
                   collection_status="partial_observation" if accepted else "no_valid_observation",
                   search_results_exhausted=False, marketplace_coverage="unknown",
-                  page_coverage="first_search_page_partial" if probe else "unknown",
+                  page_coverage="captured_pages_partial" if capture_pages else
+                                ("first_search_page_partial" if probe else "unknown"),
                   source_coverage=source_coverage,
                   observation_time_note="Probe collected_at records structuring time, not exact DOM capture time."
                                         if probe else "No probe supplied.",
@@ -107,6 +118,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--probe", type=Path, help="Browser observation JSON export")
     parser.add_argument("--offline-zip", type=Path, help="Optional diagnostic ZIP")
+    parser.add_argument("--capture-dir", type=Path, help="Folder of user-triggered browser capture JSON files")
     parser.add_argument("--out", type=Path, default=ROOT / "shopee_tw/output/track_b_import")
     args = parser.parse_args()
-    print(json.dumps(run(args.probe, args.offline_zip, args.out), ensure_ascii=False, indent=2))
+    print(json.dumps(run(args.probe, args.offline_zip, args.out, args.capture_dir), ensure_ascii=False, indent=2))

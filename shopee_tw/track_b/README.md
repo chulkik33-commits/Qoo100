@@ -7,6 +7,8 @@ Saved browser observations from 2026-10-26 are imported: 26 product listings and
 
 Search indexing yielded 5 additional shop IDs in `evidence/search_index_leads_20261026.json`. They are exported only to `unverified_search_leads.csv`; indexed links have no verified current price, sold count or observation time and are not added to seller_master.
 
+The next technical capture route is the user-triggered Chrome tool in `browser_capture/README_KO.md`. It extracts only rendered cards from the open page and writes local JSON, with no automatic navigation or remote service. `import_observations.py --capture-dir <folder>` combines captures and records each page's status; no page coverage is inferred from missing files. Its extraction function was tested against the 28 actual card payloads saved from the first browser session (26 relevant, 2 unrelated). Installation and Shopee navigation on the user's local Chrome remain untested.
+
 | Source | Decision | Evidence |
 |---|---|---|
 | Rebrowser public sample | Excluded: research/non-commercial license | https://github.com/rebrowser/shopee-dataset |

@@ -1,0 +1,15 @@
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const {normalizeCards} = require("./capture_core.js");
+const evidence = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+const pageUrl = "https://shopee.tw/search?keyword=jungsaemmool";
+const at = "2026-10-26T12:08:44.956Z";
+const result = normalizeCards(evidence.raw_cards, pageUrl, at, "");
+assert.equal(result.records.length, 26);
+assert.equal(new Set(result.records.map(r => r.shop_id)).size, 17);
+assert.equal(result.coverage.unrelated_cards, 2);
+assert.equal(result.coverage.status, "captured_visible_cards");
+assert(result.records.every(r => /^\d+$/.test(r.shop_id) && /^\d+$/.test(r.item_id)));
+assert(result.records.every(r => r.source_url === pageUrl && r.collected_at === at));
+assert.equal(normalizeCards([], pageUrl + "&page=1", at, "Shopee page cannot display").coverage.status, "page_error");
+console.log("Visible page parser: 26 listings, 17 shops, 2 unrelated; error page recorded.");

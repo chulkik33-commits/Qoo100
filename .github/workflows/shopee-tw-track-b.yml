@@ -23,6 +23,8 @@ jobs:
         run: python shopee_tw/tests/test_track_b.py
       - name: Test saved observation import
         run: python shopee_tw/tests/test_track_b_import.py
+      - name: Test visible page extraction against observed cards
+        run: node shopee_tw/track_b/browser_capture/test_capture.js shopee_tw/track_b/browser_capture/fixture_cards.json
       - name: Import saved observations
         run: python shopee_tw/track_b/import_observations.py --probe shopee_tw/track_b/evidence/observed_20261026.json --out shopee_tw/output/track_b
       - name: Report actual collection status
