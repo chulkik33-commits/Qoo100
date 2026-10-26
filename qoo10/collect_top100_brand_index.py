@@ -56,6 +56,34 @@ def domestic_score(best,count,reviews):
     breadth=min(100,25*count)
     rev=min(100,20*math.log10(max(1,reviews)))
     return .45*rank+.25*breadth+.30*rev
+
+MULTI_CATEGORY_BRANDS={"VT","ETUDE"}
+
+CATEGORY_TERMS={
+ "SKINCARE":[
+  "serum","ampoule","cream","toner","lotion","essence","mask","pad","cleanser","cleansing","sunscreen","sun cream","moisture","pdrn","retinol","cica","hyaluronic",
+  "セラム","アンプル","クリーム","トナー","ローション","エッセンス","マスク","パッド","クレンジング","日焼け止め","美容液","化粧水","乳液",
+  "세럼","앰플","크림","토너","로션","에센스","마스크","패드","클렌징","선크림"
+ ],
+ "MAKEUP":[
+  "cushion","foundation","tint","lip","blush","mascara","eyeliner","eyeshadow","palette","concealer","powder","primer","brow","highlighter","contour",
+  "クッション","ファンデ","ティント","リップ","チーク","マスカラ","アイライナー","アイシャドウ","パレット","コンシーラー","パウダー","プライマー","ブロウ","ハイライト",
+  "쿠션","파운데이션","틴트","립","블러셔","마스카라","아이라이너","아이섀도","팔레트","컨실러","파우더","프라이머","브로우"
+ ],
+ "HAIRCARE":[
+  "hair","shampoo","treatment","conditioner","scalp","hair oil","hair serum","hair mask","hair mist","dye","color","styling",
+  "ヘア","シャンプー","トリートメント","コンディショナー","スカルプ","ヘアオイル","ヘアセラム","ヘアマスク","ヘアミスト","カラー","スタイリング",
+  "헤어","샴푸","트리트먼트","컨디셔너","두피","헤어오일","헤어세럼","헤어팩","헤어미스트","염색","스타일링"
+ ]
+}
+def category_relevant(r):
+    bid=r.get("brand_id","")
+    base=bid.split("_")[-1]
+    if base not in MULTI_CATEGORY_BRANDS:return True
+    text=(" "+(r.get("product_name") or "")+" "+(r.get("detail_name") or "")+" ").lower()
+    cat=r.get("category")
+    return any(term.lower() in text for term in CATEGORY_TERMS.get(cat,[]))
+
 def save(path,rows):
     if not rows:return
     fields=[]
@@ -120,9 +148,12 @@ async def main():
             print("DETAIL",len(detail),"/",len(raw),"OK",progress["detail_ok"],flush=True)
         await b.close()
     save(OUT/"02_detail.csv",detail)
+    filtered=[r for r in detail if category_relevant(r)]
+    save(OUT/"02b_detail_category_filtered.csv",filtered)
     rows=[];by=defaultdict(list);meta={r["brand_id"]:r for r in brands}
-    for r in detail:by[r["brand_id"]].append(r)
-    for bid,rr in by.items():
+    for r in filtered:by[r["brand_id"]].append(r)
+    for br in brands:
+        bid=br["brand_id"]; rr=by.get(bid,[])
         ok=[x for x in rr if x.get("detail_status")=="OK"];total=sum(x.get("sales") or 0 for x in ok)
         official=[x for x in ok if x.get("official")==1];reseller=[x for x in ok if x.get("official")==0]
         fs=sum(x.get("sales") or 0 for x in official);rs=sum(x.get("sales") or 0 for x in reseller)
